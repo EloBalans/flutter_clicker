@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 
+
+
 class ability_tree extends StatefulWidget {
   @override
   _ability_treeState createState() => _ability_treeState();
@@ -66,15 +68,318 @@ class _ability_treeState extends State<ability_tree> {
           ),
       body:
       Container(
-      child:Column( 
+         color: Colors.white,
+          child:Column( 
           
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: <Widget>[
+            
             Expanded(
+              
               flex:7,
-              child: Container(
-              color: Colors.red[300],
+               child: Row( 
+                 
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    children: <Widget>[
+
+
+                      Expanded(
+                        flex:1,
+                          child: Column(
+                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                          children: <Widget>[
+                            Expanded(
+                              flex:1,
+                              child: Container(
+                                color: Colors.white,
+                                margin: EdgeInsets.all(10.0),
+                              ),
+                            ),
+                            Expanded(
+                              flex:1,
+                              child: Container(
+                                color: Colors.red[200],
+                                margin: EdgeInsets.all(10.0),
+                              ),
+                            ),
+                            Expanded(
+                              flex:1,
+                              child: Container(
+                                color: Colors.white,
+                                margin: EdgeInsets.all(10.0),
+                              ),
+                            ),
+                            Expanded(
+                              flex:1,
+                              child: Container(
+                                color: Colors.red[400],
+                                margin: EdgeInsets.all(10.0),
+                              ),
+                            ),
+                            Expanded(
+                              flex:1,
+                              child: Container(
+                                color: Colors.red[500],
+                                margin: EdgeInsets.all(10.0),
+                              ),
+                            ),
+                            Expanded(
+                              flex:1,
+                              child: Container(
+                                color: Colors.white,
+                                margin: EdgeInsets.all(10.0),
+                              ),
+                            ),
+                            Expanded(
+                              flex:1,
+                              child: Container(
+                                color: Colors.white,
+                                margin: EdgeInsets.all(10.0),
+                              ),
+                            ),
+                          ]
+                        ),
+                      ), 
+
+
+                      Expanded(
+                        flex:1,
+                          child: Column(
+                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                          children: <Widget>[
+                            Expanded(
+                              flex:1,
+                              child: Container(
+                                color: Colors.white,
+                                margin: EdgeInsets.all(10.0),
+                              ),
+                            ),
+                            Expanded(
+                              flex:1,
+                              child: Container(
+                                color: Colors.white,
+                                margin: EdgeInsets.all(10.0),
+                              ),
+                            ),
+                            Expanded(
+                              flex:1,
+                              child: Container(
+                                color: Colors.green[300],
+                                margin: EdgeInsets.all(10.0),
+                              ),
+                            ),
+                            Expanded(
+                              flex:1,
+                              child: Container(
+                                color: Colors.white,
+                                margin: EdgeInsets.all(10.0),
+                              ),
+                            ),
+                            Expanded(
+                              flex:1,
+                              child: Container(
+                                color: Colors.green[500],
+                                margin: EdgeInsets.all(10.0),
+                              ),
+                            ),
+                            Expanded(
+                              flex:1,
+                              child: Container(
+                                color: Colors.green[600],
+                                margin: EdgeInsets.all(10.0),
+                              ),
+                            ),
+                            Expanded(
+                              flex:1,
+                              child: Container(
+                                color: Colors.white,
+                                margin: EdgeInsets.all(10.0),
+                              ),
+                            ),
+                          ]
+                        ),
+                      ), 
+
+
+                      Expanded(
+                        flex:1,
+                          child: Column(
+                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                          children: <Widget>[
+                            Expanded(
+                              flex:1,
+                              child: Container(
+                                color: Colors.blue[100],
+                                margin: EdgeInsets.all(10.0),
+                              ),
+                            ),
+                            Expanded(
+                              flex:1,
+                              child: Container(
+                                color: Colors.blue[200],
+                                margin: EdgeInsets.all(10.0),
+                              ),
+                            ),
+                            Expanded(
+                              flex:1,
+                              child: Container(
+                                color: Colors.white,
+                                margin: EdgeInsets.all(10.0),
+                              ),
+                            ),
+                            Expanded(
+                              flex:1,
+                              child: Container(
+                                color: Colors.blue[400],
+                                margin: EdgeInsets.all(10.0),
+                              ),
+                            ),
+                            Expanded(
+                              flex:1,
+                              child: Container(
+                                color: Colors.white,
+                                margin: EdgeInsets.all(10.0),
+                              ),
+                            ),
+                            Expanded(
+                              flex:1,
+                              child: Container(
+                                color: Colors.white,
+                                margin: EdgeInsets.all(10.0),
+                              ),
+                            ),
+                            Expanded(
+                              flex:1,
+                              child: Container(
+                                color: Colors.blue[700],
+                                margin: EdgeInsets.all(10.0),
+                              ),
+                            ),
+                          ]
+                        ),
+                      ),
+
+
+                      Expanded(
+                        flex:1,
+                          child: Column(
+                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                          children: <Widget>[
+                            Expanded(
+                              flex:1,
+                              child: Container(
+                                color: Colors.white,
+                                margin: EdgeInsets.all(10.0),
+                              ),
+                            ),
+                            Expanded(
+                              flex:1,
+                              child: Container(
+                                color: Colors.white,
+                                margin: EdgeInsets.all(10.0),
+                              ),
+                            ),
+                            Expanded(
+                              flex:1,
+                              child: Container(
+                                color: Colors.white,
+                                margin: EdgeInsets.all(10.0),
+                              ),
+                            ),
+                            Expanded(
+                              flex:1,
+                              child: Container(
+                                color: Colors.white,
+                                margin: EdgeInsets.all(10.0),
+                              ),
+                            ),
+                            Expanded(
+                              flex:1,
+                              child: Container(
+                                color: Colors.yellow[500],
+                                margin: EdgeInsets.all(10.0),
+                              ),
+                            ),
+                            Expanded(
+                              flex:1,
+                              child: Container(
+                                color: Colors.yellow[600],
+                                margin: EdgeInsets.all(10.0),
+                              ),
+                            ),
+                            Expanded(
+                              flex:1,
+                              child: Container(
+                                color: Colors.white,
+                                margin: EdgeInsets.all(10.0),
+                              ),
+                            ),
+                          ]
+                        ),
+                      ),  
+
+
+                      Expanded(
+                        flex:1,
+                          child: Column(
+                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                          children: <Widget>[
+                            Expanded(
+                              flex:1,
+                              child: Container(
+                                color: Colors.white,
+                                margin: EdgeInsets.all(10.0),
+                              ),
+                            ),
+                            Expanded(
+                              flex:1,
+                              child: Container(
+                                color: Colors.brown[200],
+                                margin: EdgeInsets.all(10.0),
+                              ),
+                            ),
+                            Expanded(
+                              flex:1,
+                              child: Container(
+                                color: Colors.brown[300],
+                                margin: EdgeInsets.all(10.0),
+                              ),
+                            ),
+                            Expanded(
+                              flex:1,
+                              child: Container(
+                                color: Colors.brown[400],
+                                margin: EdgeInsets.all(10.0),
+                              ),
+                            ),
+                            Expanded(
+                              flex:1,
+                              child: Container(
+                                color: Colors.white,
+                                margin: EdgeInsets.all(10.0),
+                              ),
+                            ),
+                            Expanded(
+                              flex:1,
+                              child: Container(
+                                color: Colors.white,
+                                margin: EdgeInsets.all(10.0),
+                              ),
+                            ),
+                            Expanded(
+                              flex:1,
+                              child: Container(
+                                color: Colors.white,
+                                margin: EdgeInsets.all(10.0),
+                              ),
+                            ),
+                            
+
+                          ]
+                        ),
+                      ), 
+                    ]
               ),
             ),
 
@@ -105,7 +410,7 @@ class _ability_treeState extends State<ability_tree> {
                                
                                   
                                   Text(
-                                    'Amenzia Haze ',
+                                    'Amsdfsd ',
                                     style: TextStyle(
                                       letterSpacing:2.0,
                                       fontWeight: FontWeight.bold,

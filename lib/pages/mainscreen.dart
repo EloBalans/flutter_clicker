@@ -128,7 +128,7 @@ void upgradeventilation(){
                
               color: Colors.green[100],
               padding: EdgeInsets.all(5.0),
-              margin: EdgeInsets.all(2.0),
+              
                 child: Row( 
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
 
