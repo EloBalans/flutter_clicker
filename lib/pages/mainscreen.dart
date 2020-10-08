@@ -5,17 +5,12 @@ class mainscreen extends StatefulWidget {
   _mainscreenState createState() => _mainscreenState();
 }
 
-class _mainscreenState extends State<mainscreen> {
-  int resources=0;
+class _mainscreenState extends State<mainscreen> {int resources=0;
 
 int points=0;
-int lvl_water=0;
-int lvl_light=0;
-int lvl_ventilation=0;
-int restoupwater=10;
-int restouplight=10;
-int restoupventilation=10;
+
 int intrest=1;
+int surcesFromTree=0;
 
 void changeresurces(){
   setState(() {
@@ -23,29 +18,13 @@ void changeresurces(){
     points += intrest;
   });
 }
-void upgradewater(){
+
+void upgraderesurces(){
   setState(() {
-    resources -= restoupwater;
-    lvl_water +=1;
-    intrest+=lvl_water;
-    restoupwater=restoupwater*2;
+    intrest=intrest+surcesFromTree;
+    resources=resources+intrest;
   });
-}
-void upgradelight(){
-  setState(() {
-    resources -= restouplight;
-    lvl_light +=1;
-    intrest+=lvl_light;
-    restouplight=restouplight*2;
-  });
-}
-void upgradeventilation(){
-  setState(() {
-    resources -= restoupventilation;
-    lvl_ventilation +=1;
-    intrest+=lvl_ventilation;
-    restoupventilation=restoupventilation*2;
-  });
+  
 }
   @override
   Widget build(BuildContext context) {
@@ -66,6 +45,7 @@ void upgradeventilation(){
                    
                     onPressed: () {
                       Navigator.pushNamed(context, '/ability_tree');
+                       Navigator.pushReplacementNamed(context, '/ability_tree', arguments:{} );
                     } ),
               ),
 
@@ -136,38 +116,44 @@ void upgradeventilation(){
                      Expanded(
                        flex:1,
                         child: Container(
-                          height:48.0,
+                          height:60.0,
                         padding: EdgeInsets.all(5.0),
                         margin: EdgeInsets.all(2.0),
                         color: Colors.green[500],
                           child: Column(
                             children: <Widget>[
-                              Text(
-                                'Andrzej',
-                                style: TextStyle(
-                                  letterSpacing:2.0,
-                                  fontWeight: FontWeight.bold,
-                                  color: Colors.white,
-                                  
+                                Expanded(
+                                  flex:1,
+                                  child: Text(
+                                    'Andrzej',
+                                    style: TextStyle(
+                                      fontSize: 20.0,
+                                      letterSpacing:2.0,
+                                      fontWeight: FontWeight.bold,
+                                      color: Colors.white,
+                                   ),
+                               ),
                                 ),
-                              ),
                     
-                        Text(
-                          'Punkty: $points',
-                              style: TextStyle(
-                              letterSpacing:2.0,
-                              fontWeight: FontWeight.bold,
-                              color: Colors.white,
-                              ),
+                                Expanded(
+                                    flex:1,
+                                    child: Text(
+                                    'Punkty: $points',
+                                    style: TextStyle(
+                                      letterSpacing:2.0,
+                                      fontWeight: FontWeight.bold,
+                                      color: Colors.white,
+                                    ),
+                                  ),
+                                ),
+                              ],
                             ),
-                      ],
-                   ),
-                        ),
-                     ),
+                      ),
+                    ),
                     Expanded(
                       flex:1,
                          child: Container(
-                           height:48.0,
+                           height:60.0,
                            color: Colors.green[500],
                             child: Column(
                               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -186,7 +172,7 @@ void upgradeventilation(){
                                  color: Colors.red[300],
                                  ),
                                 Text(
-                                '',
+                                '0',
                                   style: TextStyle(
                                   fontSize: 13.0,
                                   color: Colors.white,
@@ -241,6 +227,9 @@ void upgradeventilation(){
                 onTap: changeresurces,
                 child: Image(
                   image: AssetImage('assets/room_02_testdecorated.png'),
+                  height:320.0,
+                  width: 320.0,
+
                   fit: BoxFit.cover, 
                   
                   ),
@@ -250,119 +239,51 @@ void upgradeventilation(){
               ),    
             ),
             
-            Container(
-              color: Colors.green[100],
-              padding: EdgeInsets.all(2.0),
-              margin: EdgeInsets.all(2.0),
-              child: Row( 
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                children: <Widget>[
-                  
-                  Container(
-                  margin: EdgeInsets.fromLTRB(15, 0, 0, 0),
-                      child: Text('Nawodnienie poziom: $lvl_water'),
-                  ),
-                  
-                  
-                  Container(
-                  
-                    child: RaisedButton(
-                    color: Colors.green[500],
-                    onPressed: (resources<restoupwater)? null : upgradewater,  
-                      child: Text('$resources/$restoupwater',
-                                  style: TextStyle(
-                                  fontSize: 13.0,
-                                  color: Colors.white,
-                                  fontWeight: FontWeight.bold
-                                  ),
-                                ),
-                  ),
-                  ),
-                  
-                ],
-              
-                
-                
-                
-                ),
-               
-            ),
             
-            Container(
-              color: Colors.green[100],
-              padding: EdgeInsets.all(2.0),
-              margin: EdgeInsets.all(2.0),
-              child: Row( 
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                children: <Widget>[
-                  
-                  Container(
-                  margin: EdgeInsets.fromLTRB(15, 0, 0, 0),
-                      child: Text('Naświeltenie poziom: $lvl_light'),
-                  ),
-                  
-                  Container(
-                 
-                    child: RaisedButton(
-                      color: Colors.green[500],
-                     onPressed: (resources<restouplight)? null : upgradelight,
-                      child: Text('$resources/$restouplight',
-                                  style: TextStyle(
-                                  fontSize: 13.0,
-                                  color: Colors.white,
-                                  fontWeight: FontWeight.bold
-                                  ),),
-                  ),
-                  ),
-                ],
-              
-                
-                
-                
-                ),
-               
-            ),
+            
+            
               
             
-            Container(
-              color: Colors.green[100],
-              padding: EdgeInsets.all(2.0),
-              margin: EdgeInsets.all(2.0),
-              child: Row( 
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                children: <Widget>[
-                  
-                  Container(
-                  margin: EdgeInsets.fromLTRB(15, 0, 0, 0),
-                      child: Text('Wentylacja poziom: $lvl_ventilation'),
-                  ),
-                  
-                  Container(
-                 
-                    child: RaisedButton(
-                       color: Colors.green[500],
-                       onPressed: (resources<restoupventilation)? null : upgradeventilation,
-                     
-                      child: Text('$resources/$restoupventilation',
-                                  style: TextStyle(
-                                  fontSize: 13.0,
-                                  color: Colors.white,
-                                  fontWeight: FontWeight.bold
-                                  ),),
-                  ),
-                  ),
-                ],
-              
-                
-                
-                
-                ),
+           Container(
                
-            ),
+              color: Colors.green[100],
+              padding: EdgeInsets.all(5.0),
+              
+                child: Row( 
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+
+                  children: <Widget>[
+                     Expanded(
+                       flex:1,
+                        child: Container(
+                          height:90.0,
+                        padding: EdgeInsets.all(5.0),
+                        margin: EdgeInsets.all(2.0),
+                        color: Colors.green[500],
+                          child: Column(
+                            children: <Widget>[
+                             
+                    
+                        
+                              ],
+                          ),
+                        ),
+                      ),
+                    
+                   
+
+
+
+
+
+
+                  ]
+                ), 
+            ), 
             
           ],  
 
-
+          
         ),
         
         ), 
