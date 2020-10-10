@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "710929374488",
+    "firebase_url": "https://clicker-d2e5c.firebaseio.com",
+    "project_id": "clicker-d2e5c",
+    "storage_bucket": "clicker-d2e5c.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:710929374488:android:35461b58a5f21ab132d26d",
+        "android_client_info": {
+          "package_name": "com.example.game_01"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "710929374488-c25g6hv05ele5bkkkqtp75gjhvh3vtfr.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCs2NGnmAiqpF0iw6yoeAR65I-n92_JQE0"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "710929374488-c25g6hv05ele5bkkkqtp75gjhvh3vtfr.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

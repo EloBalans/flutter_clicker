@@ -10,16 +10,10 @@ class Loading extends StatefulWidget {
 class _LoadingState extends State<Loading> {
 
 
-  void getData() async {
-    Response response = await get('https://jsonplaceholder.typicode.com/todos/1');
-    Map data = json.decode(response.body);
-    print(data);
-    print(data['userId']);
-  }
+  
  
   void initState(){
     super.initState();
-    getData();
     print('uś');
   }
 

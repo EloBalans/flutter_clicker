@@ -1,9 +1,16 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:game_01/pages/authenticate/authenticate.dart';
+import 'package:game_01/services/auth.dart';
+
+
 class userinfo extends StatefulWidget {
+
+ 
   @override
   _userinfoState createState() => _userinfoState();
 }
-
+ final AuthService _auth = AuthService();
 class _userinfoState extends State<userinfo> {
   @override
   Widget build(BuildContext context) {
@@ -52,8 +59,18 @@ class _userinfoState extends State<userinfo> {
 
               Expanded(
                 flex: 1,
-                  child: Container(),
-              ),
+                  child: Container(
+                    child:FlatButton(
+                      child: Text("logout"),
+                      onPressed: () async {
+                        await _auth.signOut();
+                       
+                      }
+                    )
+                      
+                    ),
+                  ),
+              
 
             
                 

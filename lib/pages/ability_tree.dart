@@ -274,7 +274,7 @@ int kupa;
          return StatefulBuilder(
           builder: (BuildContext context, StateSetter setStateContext) {
         return Container(
-          color: Colors.yellow[500],
+          color: Colors.red[400],
           height:100,
           
           child: Column(
@@ -326,7 +326,7 @@ int kupa;
                   Container(
                  
                     child: RaisedButton(
-                      color: Colors.green[500],
+                      color: Colors.red[700],
                         onPressed: ((resources >= resToUpabilityThree)&(lvl_abilityThree<10))
                         ? () {
                           setStateContext(() {

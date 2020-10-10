@@ -8,9 +8,10 @@ class mainscreen extends StatefulWidget {
 class _mainscreenState extends State<mainscreen> {int resources=0;
 
 int points=0;
-
+Map data = {};
 int intrest=1;
 int surcesFromTree=0;
+
 
 void changeresurces(){
   setState(() {
@@ -28,6 +29,10 @@ void upgraderesurces(){
 }
   @override
   Widget build(BuildContext context) {
+
+    data =ModalRoute.of(context).settings.arguments;
+    print(data);
+
     return Scaffold(
         
         
