@@ -63,6 +63,7 @@ class _userinfoState extends State<userinfo> {
                     child:FlatButton(
                       child: Text("logout"),
                       onPressed: () async {
+                       
                         await _auth.signOut();
                        
                       }

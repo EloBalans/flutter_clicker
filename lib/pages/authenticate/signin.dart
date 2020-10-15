@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:game_01/services/auth.dart';
+import 'package:game_01/shared/loading.dart';
 
 class SignIn extends StatefulWidget {
 
@@ -14,6 +15,7 @@ class _SignInState extends State<SignIn> {
 
 final AuthService _auth = AuthService();
 final _formKey = GlobalKey<FormState>();
+bool loading = false;
 
 String email = '';
 String password = '';
@@ -21,7 +23,7 @@ String error = '';
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
+    return loading ? Loading() : Scaffold(
       resizeToAvoidBottomInset: false, 
       appBar: AppBar(
         backgroundColor: Colors.green,
@@ -96,7 +98,7 @@ String error = '';
                             ),
                           ),
 
-                   // validator: (val) => val.isEmpty ? 'Enter an email' : null,
+                   validator: (val) => val.isEmpty ? 'Enter an email' : null,
 
                     onChanged: (val){
                       setState(() => email = val);
@@ -112,7 +114,7 @@ String error = '';
                             ),
                           ),
                     obscureText: true,
-                   // validator: (val) => val.isEmpty ? 'Enter an password' : null,
+                   validator: (val) => val.isEmpty ? 'Enter an password' : null,
                     onChanged: (val){
                       
                       setState(() => password = val);
@@ -130,9 +132,13 @@ String error = '';
                     
                     onPressed: () async {
                       if(_formKey.currentState.validate()){
+                        setState(() => loading = true);
                         dynamic result = await _auth.signIn(email.trim(), password.trim());
                         if(result == null){
-                          setState(() => error = 'could not sign in');
+                          setState(() {
+                          error = 'could not sign in';
+                          loading = false;
+                          });
                         }
                       }
                     }

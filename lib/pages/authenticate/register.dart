@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:game_01/services/auth.dart';
+import 'package:game_01/shared/loading.dart';
 
 class register extends StatefulWidget {
 
@@ -19,14 +20,17 @@ class _registerState extends State<register> {
 
 final AuthService _auth = AuthService();
 final _formKey = GlobalKey<FormState>();
+bool loading = false;
+
 
 String email = '';
 String password = '';
 String error = '';
+String username = '';
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
+    return loading ? Loading() : Scaffold(
       resizeToAvoidBottomInset: false, 
       appBar: AppBar(
         backgroundColor: Colors.green,
@@ -105,12 +109,26 @@ String error = '';
                         ),
                       ),
                       
-                      //validator: (val) => val.isEmpty ? 'Enter an email' : null,
+                      validator: (val) => val.isEmpty ? 'Enter an email' : null,
                       
                       onChanged: (val){
                         setState(() => email = val);
                       },
                       
+                    ),
+                    SizedBox(height: 20.0),
+                    TextFormField(
+                      decoration: InputDecoration(
+                        prefixIcon: Icon(Icons.supervised_user_circle),
+                        hintText: 'Username',
+                          border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(32.0)
+                        ),
+                      ),
+                      validator: (val) => val.isEmpty ? 'Enter an username' : null,
+                      onChanged: (val){
+                        setState(() => username = val);
+                      },
                     ),
                     SizedBox(height: 20.0),
                     TextFormField(
@@ -122,7 +140,7 @@ String error = '';
                         ),
                       ),
                       obscureText: true,
-                      //validator: (val) => val.isEmpty ? 'Enter an password' : null,
+                      validator: (val) => val.isEmpty ? 'Enter an password' : null,
                       
                       
                       onChanged: (val){
@@ -130,6 +148,7 @@ String error = '';
                       },
                     ),
                     SizedBox(height: 20.0),
+                     
                     RaisedButton(
                       color:Colors.green,
                       
@@ -140,9 +159,14 @@ String error = '';
                       ),
                       onPressed: () async {
                           if(_formKey.currentState.validate()){
-                            dynamic result = await _auth.register(email.trim(),password.trim());
+                            setState(() => loading = true);
+                            dynamic result = await _auth.register(email.trim(),password.trim(),username.trim());
+                            
                             if(result == null){
-                              setState(() => error = 'please supply valid email or password');
+                              setState((){
+                                error = 'please supply valid email or password';
+                                loading = false;
+                              });
                             }
                           }
                       }

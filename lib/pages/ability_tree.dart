@@ -1,6 +1,9 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-
+import 'package:game_01/services/database.dart';
+import 'package:game_01/models/user.dart';
+import 'package:game_01/shared/loading.dart';
+import 'package:provider/provider.dart';
 
 
 class ability_tree extends StatefulWidget {
@@ -13,15 +16,18 @@ class ability_tree extends StatefulWidget {
 
 class _ability_treeState extends State<ability_tree> {
 
-int resources=1000000;
-int lvl_abilityOne=0;
-int lvl_abilityTwo=0;
-int lvl_abilityThree=0;
-int resToUpabilityOne=10;
-int resToUpabilityTwo=10;
-int resToUpabilityThree=10;
+int resources;
+int lvl_abilityOne;
+int lvl_abilityTwo;
+int lvl_abilityThree;
+int points;
+int resToUpabilityOne;
+int resToUpabilityTwo;
+int resToUpabilityThree;
 int intrest=1;
-int kupa;
+String username;
+int wares;
+String actualware;
   void _showAlertabilityTwo(){
     showDialog(context: context,
       builder: (BuildContext context){
@@ -95,79 +101,119 @@ int kupa;
       builder: (BuildContext context) {
          return StatefulBuilder(
           builder: (BuildContext context, StateSetter setStateContext) {
-        return Container(
-          color: Colors.blue[500],
-          height:100,
-          
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-             children: <Widget>[
-                Text("Ability one",
-                  style: TextStyle(
-                    color: Colors.white,
-                    letterSpacing:2.0,
-                    fontSize: 22.0,
-                    fontWeight: FontWeight.bold
-                   ),
-                ),
-               Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                 children: [
-                   Text("opis sdfsdfs"
-                   "\nopis sdfsdfs"
-                   "\nopis sdfsdfs"
-                   "\nopis sdfsdfs",
-                  style: TextStyle(
-                    color: Colors.white,
-                    letterSpacing:2.0,
-                    fontSize: 10.0,
-                    fontWeight: FontWeight.bold
-                   ),
-                ),
-               
-                   
-                    Text("Aktualny poziom: $lvl_abilityOne/10",
-                    style: TextStyle(
-                      color: Colors.white,
-                      letterSpacing:2.0,
-                      fontSize: 10.0,
-                      fontWeight: FontWeight.bold
+            final user = Provider.of<User>(context);
+        return StreamBuilder<UserData>(
+          stream: DatabaseService(uid: user.uid).userData,
+          builder: (context, snapshot) {
+            
+            if(snapshot.hasData){
+            
+            
+            UserData userData = snapshot.data;
+              lvl_abilityOne=userData.lvlabilityone;
+              lvl_abilityTwo=userData.lvlabilitytwo;
+              lvl_abilityThree=userData.lvlabilitythree;
+              actualware=userData.actualware;
+              resources=userData.wares;
+              resToUpabilityOne=userData.uptolvlone;
+              resToUpabilityTwo=userData.uptolvltwo;
+              resToUpabilityThree=userData.uptolvlthree;
+
+
+            return Container(
+              color: Colors.blue[500],
+              height:100,
+              
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                 children: <Widget>[
+                    Text("Ability one",
+                      style: TextStyle(
+                        color: Colors.white,
+                        letterSpacing:2.0,
+                        fontSize: 22.0,
+                        fontWeight: FontWeight.bold
+                       ),
                     ),
-                  ),
-                  
-                 
-                 
-                   Container(
-                 
-                    child: RaisedButton(
-                      color: Colors.blue[200],
-                      onPressed: ((resources >= resToUpabilityOne)&(lvl_abilityOne<10))
-                        ? () {  
-                          setStateContext(() {
-                            resources -= resToUpabilityOne;
-                            lvl_abilityOne += 1;
-                            intrest += lvl_abilityOne;
-                            resToUpabilityOne = resToUpabilityOne * 2;
-                        });
-                      }
-                    : null,
+                   Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                     children: [
+                       Text("opis sdfsdfs"
+                       "\nopis  sdfsdfs"
+                       "\nopis sdfsdfs"
+                       "\nopis sdfsdfs",
+                      style: TextStyle(
+                        color: Colors.white,
+                        letterSpacing:2.0,
+                        fontSize: 10.0,
+                        fontWeight: FontWeight.bold
+                       ),
+                    ),
+                   
+                       
+                        Text("Aktualny poziom: $lvl_abilityOne/10",
+                        style: TextStyle(
+                          color: Colors.white,
+                          letterSpacing:2.0,
+                          fontSize: 10.0,
+                          fontWeight: FontWeight.bold
+                        ),
+                      ),
+                      
                      
-                      child: Text('$resources/$resToUpabilityOne',
-                                  style: TextStyle(
-                                  fontSize: 13.0,
-                                  color: Colors.white,
-                                  fontWeight: FontWeight.bold
-                                  ),),
-                  ),
-                  ),
+                     
+                       Container(
+                     
+                        child: RaisedButton(
+                          color: Colors.blue[200],
+                          onPressed: ((resources >= resToUpabilityOne)&(lvl_abilityOne<10))
+                            ? () async {  
+                              setStateContext(() {
+                                resources -= resToUpabilityOne;
+                                lvl_abilityOne += 1;
+                                intrest += lvl_abilityOne;
+                                resToUpabilityOne = resToUpabilityOne * 2;
+                                
+                            });
+                            await DatabaseService(uid: user.uid).updateUserData(
+                              username ?? userData.username,
+                              lvl_abilityOne ?? userData.lvlabilityone, 
+                              lvl_abilityTwo ?? userData.lvlabilitytwo, 
+                              lvl_abilityThree ?? userData.lvlabilitythree,
+                              actualware ?? userData.actualware,
+                              resources ?? userData.wares,
+                              points ?? userData.points,
+                              resToUpabilityOne ?? userData.uptolvlone,
+                              resToUpabilityTwo ?? userData.uptolvltwo,
+                              resToUpabilityThree ?? userData.uptolvlthree,
 
-                  
-                  ],
-                 ) ,
-                
+                              );
+                          }
+                        : null,
+                         
+                          child: Text('$resources/$resToUpabilityOne',
+                                      style: TextStyle(
+                                      fontSize: 13.0,
+                                      color: Colors.white,
+                                      fontWeight: FontWeight.bold
+                                      ),),
+                      ),
+                      ),
 
-             ],
-          ),
+                      
+                      ],
+                     ) ,
+                    
+
+                 ],
+              ),
+            );
+            
+            }else{
+             return Loading();
+            }
+            
+          }
         );
           }
          );
@@ -179,657 +225,566 @@ int kupa;
   void _abilityTwoPopout(context){
     showModalBottomSheet(
       context: context, 
-      builder: (context) {
-        return StatefulBuilder(
-          builder: (BuildContext context, StateSetter setStateContext) {
-        return Container(
-          
-          color: Colors.green[500],
-          height:100,
-          
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-             children: <Widget>[
-                Text("Ability two",
-                  style: TextStyle(
-                    color: Colors.white,
-                    letterSpacing:2.0,
-                    fontSize: 22.0,
-                    fontWeight: FontWeight.bold
-                   ),
-                ),
-               Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                 children: [
-                   Text("opis sdfsdfs"
-                   "\nopis sdfsdfs"
-                   "\nopis sdfsdfs"
-                   "\nopis sdfsdfs",
-                  style: TextStyle(
-                    color: Colors.white,
-                    letterSpacing:2.0,
-                    fontSize: 10.0,
-                    fontWeight: FontWeight.bold
-                   ),
-                ),
-                Column(
-                   children: [
-                    Text("koszt: $resources/$resToUpabilityTwo",
-                    style: TextStyle(
-                      color: Colors.white,
-                      letterSpacing:2.0,
-                      fontSize: 10.0,
-                      fontWeight: FontWeight.bold
-                     ),
-                  ),
-                    Text("Aktualny poziom: $lvl_abilityTwo",
-                    style: TextStyle(
-                      color: Colors.white,
-                      letterSpacing:2.0,
-                      fontSize: 10.0,
-                      fontWeight: FontWeight.bold
-                    ),
-                  ),
-                   ],
-                ),
-                 
-                  Container(
-                      child: RaisedButton(
-                      color: Colors.green[500],
-                        onPressed: ((resources >= resToUpabilityTwo)&(lvl_abilityTwo<10))
-                        ? () {
-                          setStateContext(() {
-                            resources -= resToUpabilityTwo;
-                            lvl_abilityTwo += 1;
-                            intrest += lvl_abilityTwo;
-                            resToUpabilityTwo = resToUpabilityTwo * 2;
-                        });
-                      }
-                    : null,
-                      child: Text('$resources/$resToUpabilityTwo',
-                        style: TextStyle(
-                        fontSize: 13.0,
-                        color: Colors.white,
-                        fontWeight: FontWeight.bold
-                        ),
-                    ),
-                  ),
-                  )
-                  ],
-                 ) ,
-                
-
-             ],
-          ),
-        );
-          }
-        );
-    });
-  }
-
-  void _abilityThreePopout(context){
-    showModalBottomSheet(
-      context: context,
-       builder: (context) {
+      builder: (BuildContext context) {
          return StatefulBuilder(
           builder: (BuildContext context, StateSetter setStateContext) {
-        return Container(
-          color: Colors.red[400],
-          height:100,
-          
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-             children: <Widget>[
-                Text("Ability tree",
-                  style: TextStyle(
-                    color: Colors.white,
-                    letterSpacing:2.0,
-                    fontSize: 22.0,
-                    fontWeight: FontWeight.bold
-                   ),
-                ),
-               Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                 children: [
-                   Text("opis sdfsdfs"
-                   "\nopis sdfsdfs"
-                   "\nopis sdfsdfs"
-                   "\nopis sdfsdfs",
-                  style: TextStyle(
-                    color: Colors.white,
-                    letterSpacing:2.0,
-                    fontSize: 10.0,
-                    fontWeight: FontWeight.bold
-                   ),
-                ),
-                Column(
-                   children: [
-                    Text("koszt: $resources/$resToUpabilityThree",
-                    style: TextStyle(
-                      color: Colors.white,
-                      letterSpacing:2.0,
-                      fontSize: 10.0,
-                      fontWeight: FontWeight.bold
-                     ),
-                  ),
-                    Text("Aktualny poziom: $lvl_abilityThree",
-                    style: TextStyle(
-                      color: Colors.white,
-                      letterSpacing:2.0,
-                      fontSize: 10.0,
-                      fontWeight: FontWeight.bold
-                    ),
-                  ),
-                   ],
-                ),
-                 
-                  Container(
-                 
-                    child: RaisedButton(
-                      color: Colors.red[700],
-                        onPressed: ((resources >= resToUpabilityThree)&(lvl_abilityThree<10))
-                        ? () {
-                          setStateContext(() {
-                            resources -= resToUpabilityThree;
-                            lvl_abilityThree += 1;
-                            intrest += lvl_abilityThree;
-                            resToUpabilityThree = resToUpabilityThree * 2;
-                        });
-                      }
-                    : null,
-                      child: Text('$resources/$resToUpabilityThree',
-                        style: TextStyle(
-                        fontSize: 13.0,
+            final user = Provider.of<User>(context);
+        return StreamBuilder<UserData>(
+          stream: DatabaseService(uid: user.uid).userData,
+          builder: (context, snapshot) {
+            
+            if(snapshot.hasData){
+            
+            
+            UserData userData = snapshot.data;
+              lvl_abilityOne=userData.lvlabilityone;
+              lvl_abilityTwo=userData.lvlabilitytwo;
+              lvl_abilityThree=userData.lvlabilitythree;
+              actualware=userData.actualware;
+              wares=userData.wares;
+
+
+            return Container(
+              color: Colors.green[500],
+              height:100,
+              
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                 children: <Widget>[
+                    Text("Ability Two",
+                      style: TextStyle(
                         color: Colors.white,
+                        letterSpacing:2.0,
+                        fontSize: 22.0,
                         fontWeight: FontWeight.bold
-                        ),
+                       ),
                     ),
-                  ),
-                  ),
-                  ],
-                 ) ,
-                
+                   Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                     children: [
+                       Text("opis sdfsdfs"
+                       "\nopis sdfsdfs"
+                       "\nopis sdfsdfs"
+                       "\nopis sdfsdfs",
+                      style: TextStyle(
+                        color: Colors.white,
+                        letterSpacing:2.0,
+                        fontSize: 10.0,
+                        fontWeight: FontWeight.bold
+                       ),
+                    ),
+                   
+                       
+                        Text("Aktualny poziom: $lvl_abilityTwo/10",
+                        style: TextStyle(
+                          color: Colors.white,
+                          letterSpacing:2.0,
+                          fontSize: 10.0,
+                          fontWeight: FontWeight.bold
+                        ),
+                      ),
+                      
+                     
+                     
+                       Container(
+                     
+                        child: RaisedButton(
+                          color: Colors.green[200],
+                          onPressed: ((resources >= resToUpabilityTwo)&(lvl_abilityTwo<10))
+                            ? () async {  
+                              setStateContext(() {
+                                resources -= resToUpabilityTwo;
+                                lvl_abilityTwo += 1;
+                                intrest += lvl_abilityTwo;
+                                resToUpabilityOne = resToUpabilityOne * 2;
+                                
+                            });
+                           await DatabaseService(uid: user.uid).updateUserData(
+                              username ?? userData.username,
+                              lvl_abilityOne ?? userData.lvlabilityone, 
+                              lvl_abilityTwo ?? userData.lvlabilitytwo, 
+                              lvl_abilityThree ?? userData.lvlabilitythree,
+                              actualware ?? userData.actualware,
+                              resources ?? userData.wares,
+                              points ?? userData.points,
+                              resToUpabilityOne ?? userData.uptolvlone,
+                              resToUpabilityTwo ?? userData.uptolvltwo,
+                              resToUpabilityThree ?? userData.uptolvlthree,
 
-             ],
-          ),
+                              );
+                          }
+                        : null,
+                         
+                          child: Text('$resources/$resToUpabilityTwo',
+                                      style: TextStyle(
+                                      fontSize: 13.0,
+                                      color: Colors.white,
+                                      fontWeight: FontWeight.bold
+                                      ),),
+                      ),
+                      ),
+
+                      
+                      ],
+                     ) ,
+                    
+
+                 ],
+              ),
+            );
+            
+            }else{
+             return Loading();
+            }
+            
+          }
         );
-
           }
          );
     });
   
   
   }
+
+  void _abilityThreePopout(context){
+    showModalBottomSheet(
+      context: context, 
+      builder: (BuildContext context) {
+         return StatefulBuilder(
+          builder: (BuildContext context, StateSetter setStateContext) {
+            final user = Provider.of<User>(context);
+        return StreamBuilder<UserData>(
+          stream: DatabaseService(uid: user.uid).userData,
+          builder: (context, snapshot) {
+            
+            if(snapshot.hasData){
+            
+            
+            UserData userData = snapshot.data;
+              lvl_abilityOne=userData.lvlabilityone;
+              lvl_abilityTwo=userData.lvlabilitytwo;
+              lvl_abilityThree=userData.lvlabilitythree;
+              actualware=userData.actualware;
+              wares=userData.wares;
+
+
+            return Container(
+              color: Colors.blue[500],
+              height:100,
+              
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                 children: <Widget>[
+                    Text("Ability Three",
+                      style: TextStyle(
+                        color: Colors.white,
+                        letterSpacing:2.0,
+                        fontSize: 22.0,
+                        fontWeight: FontWeight.bold
+                       ),
+                    ),
+                   Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                     children: [
+                       Text("opis sdfsdfs"
+                       "\nopis sdfsdfs"
+                       "\nopis sdfsdfs"
+                       "\nopis sdfsdfs",
+                      style: TextStyle(
+                        color: Colors.white,
+                        letterSpacing:2.0,
+                        fontSize: 10.0,
+                        fontWeight: FontWeight.bold
+                       ),
+                    ),
+                   
+                       
+                        Text("Aktualny poziom: $lvl_abilityThree/10",
+                        style: TextStyle(
+                          color: Colors.white,
+                          letterSpacing:2.0,
+                          fontSize: 10.0,
+                          fontWeight: FontWeight.bold
+                        ),
+                      ),
+                      
+                     
+                     
+                       Container(
+                     
+                        child: RaisedButton(
+                          color: Colors.red[200],
+                          onPressed: ((resources >= resToUpabilityThree)&(lvl_abilityThree<10))
+                            ? () async {  
+                              setStateContext(() {
+                                resources -= resToUpabilityThree;
+                                lvl_abilityThree += 1;
+                                intrest += lvl_abilityThree;
+                                resToUpabilityThree = resToUpabilityThree * 2;
+                                
+                            });
+                            await DatabaseService(uid: user.uid).updateUserData(
+                              username ?? userData.username,
+                              lvl_abilityOne ?? userData.lvlabilityone, 
+                              lvl_abilityTwo ?? userData.lvlabilitytwo, 
+                              lvl_abilityThree ?? userData.lvlabilitythree,
+                              actualware ?? userData.actualware,
+                              resources ?? userData.wares,
+                              points ?? userData.points,
+                              resToUpabilityOne ?? userData.uptolvlone,
+                              resToUpabilityTwo ?? userData.uptolvltwo,
+                              resToUpabilityThree ?? userData.uptolvlthree,
+
+                              );
+                          }
+                        : null,
+                         
+                          child: Text('$resources/$resToUpabilityThree',
+                                      style: TextStyle(
+                                      fontSize: 13.0,
+                                      color: Colors.white,
+                                      fontWeight: FontWeight.bold
+                                      ),),
+                      ),
+                      ),
+
+                      
+                      ],
+                     ) ,
+                    
+
+                 ],
+              ),
+            );
+            
+            }else{
+             return Loading();
+            }
+            
+          }
+        );
+          }
+         );
+    });
   
+  
+  }
+  abilitynull(){
+    return 
+    Expanded(
+      flex:1,
+        child: Container(
+        color: Colors.white,
+        margin: EdgeInsets.all(10.0),
+        ),
+    );
+
+  }
+  abilityzero(){
+    return 
+      Expanded(
+      flex:1,
+        child: Container(
+        color: Colors.blue[100],
+        margin: EdgeInsets.all(10.0),
+       ),
+     );
+
+  }
  
   @override
   Widget build(BuildContext context) {
+
+    final user = Provider.of<User>(context);
    
-    return Scaffold(
-       appBar: AppBar(
-          
-          backgroundColor:Colors.green[500],
-          actions:(
-            <Widget>[
-             
-              Expanded(
-                flex: 1,
-                 
-                  child: Container(),
-              ),
+    return StreamBuilder<UserData>(
+      stream: DatabaseService(uid: user.uid).userData,
+      builder: (context, snapshot) {
+        if(snapshot.hasData){
 
-              Expanded(
-                flex: 4,
-                 child: Column( 
-          
-        
-                      children: <Widget>[
-                       
-                        SizedBox(height: 8.0),
-
-                        Text(
-                          'CANNABIS SPOT',
-                          style: TextStyle(
-                            letterSpacing:2.0,
-                            fontSize: 22.0,
-                            fontWeight: FontWeight.bold
-                            ),
-                          ),
-                        
-
-                        Text(
-                          'DRZEWO UMIEJĘTNOŚCI',
-                          style: TextStyle(
-                            letterSpacing:2.0
-                          ),
-                        ),
-                        
-                      ],
-                  ),
-              ),
-
-              Expanded(
-                flex: 1,
-                  child: Container(),
-              ),
-
-            
-                
-            ]
-           
-            
-          ), //actions
-          ),
-      body:
-      Container(
-         color: Colors.white,
-          child:Column( 
-          
-          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-          crossAxisAlignment: CrossAxisAlignment.stretch,
-          children: <Widget>[
-            
-            Expanded(
+        UserData userData = snapshot.data;
+         lvl_abilityOne=userData.lvlabilityone;
+              lvl_abilityTwo=userData.lvlabilitytwo;
+              lvl_abilityThree=userData.lvlabilitythree;
+              actualware=userData.actualware;
+              wares=userData.wares;
+        return Scaffold(
+           appBar: AppBar(
               
-              flex:7,
-               child: Row( 
+              backgroundColor:Colors.green[500],
+              actions:(
+                <Widget>[
                  
-                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                    children: <Widget>[
+                  Expanded(
+                    flex: 1,
+                     
+                      child: Container(),
+                  ),
 
-
-                      Expanded(
-                        flex:1,
-                          child: Column(
-                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  Expanded(
+                    flex: 4,
+                     child: Column( 
+              
+            
                           children: <Widget>[
-                            Expanded(
-                              flex:1,
-                              child: Container(
-                                color: Colors.white,
-                                margin: EdgeInsets.all(10.0),
-                              ),
-                            ),
-                            Expanded(
-                              flex:1,
-                              child: Container(
-                                color: Colors.blue[100],
-                                margin: EdgeInsets.all(10.0),
-                              ),
-                            ),
-                            Expanded(
-                              flex:1,
-                              child: Container(
-                                color: Colors.white,
-                                margin: EdgeInsets.all(10.0),
-                              ),
-                            ),
-                            Expanded(
-                              flex:1,
-                              child: Container(
-                                color: Colors.blue[100],
-                                margin: EdgeInsets.all(10.0),
-                              ),
-                            ),
-                            Expanded(
-                              flex:1,
-                              child: Container(
-                                color: Colors.blue[100],
-                                margin: EdgeInsets.all(10.0),
-                              ),
-                            ),
-                            Expanded(
-                              flex:1,
-                              child: Container(
-                                color: Colors.white,
-                                margin: EdgeInsets.all(10.0),
-                              ),
-                            ),
-                            Expanded(
-                              flex:1,
-                              child: Container(
-                                color: Colors.white,
-                                margin: EdgeInsets.all(10.0),
-                              ),
-                            ),
-                          ]
-                        ),
-                      ), 
+                           
+                            SizedBox(height: 8.0),
 
+                            Text(
+                              'CANNABIS SPOT',
+                              style: TextStyle(
+                                letterSpacing:2.0,
+                                fontSize: 22.0,
+                                fontWeight: FontWeight.bold
+                                ),
+                              ),
+                            
 
-                      Expanded(
-                        flex:1,
-                          child: Column(
-                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                          children: <Widget>[
-                            Expanded(
-                              flex:1,
-                              child: Container(
-                                color: Colors.white,
-                                margin: EdgeInsets.all(10.0),
-                              ),
-                            ),
-                            Expanded(
-                              flex:1,
-                              child: Container(
-                                color: Colors.white,
-                                margin: EdgeInsets.all(10.0),
-                              ),
-                            ),
-                            Expanded(
-                              flex:1,
-                              child: Container(
-                                color: Colors.blue[100],
-                                margin: EdgeInsets.all(10.0),
-                              ),
-                            ),
-                            Expanded(
-                              flex:1,
-                              child: Container(
-                                color: Colors.white,
-                                margin: EdgeInsets.all(10.0),
-                              ),
-                            ),
-                            Expanded(
-                              flex:1,
-                              child: Container(
-                                color: Colors.blue[100],
-                                margin: EdgeInsets.all(10.0),
-                              ),
-                            ),
-                            Expanded(
-                              flex:1,
-                              child: Container(
-                                color: Colors.green[600],
-                                margin: EdgeInsets.all(10.0),
-                               
-                                    child: IconButton(
-                                      icon: Icon(Icons.art_track),
-                                      color: Colors.white,
-                                      
-                                        onPressed:(){
-                                          if(lvl_abilityOne==10){
-                                            _abilityTwoPopout(context);
-                                          }else{
-                                           _showAlertabilityTwo();
-                                          }
-                                        }
-                                      ),
-                                
-                                
-                              ),
-                            ),
-                            Expanded(
-                              flex:1,
-                              child: Container(
-                                color: Colors.white,
-                                margin: EdgeInsets.all(10.0),
-                              ),
-                            ),
-                          ]
-                        ),
-                      ), 
-
-
-                      Expanded(
-                        flex:1,
-                          child: Column(
-                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                          children: <Widget>[
-                            Expanded(
-                              flex:1,
-                              child: Container(
-                                color: Colors.blue[100],
-                                margin: EdgeInsets.all(10.0),
-                              ),
-                            ),
-                            Expanded(
-                              flex:1,
-                              child: Container(
-                                color: Colors.blue[100],
-                                margin: EdgeInsets.all(10.0),
-                              ),
-                            ),
-                            Expanded(
-                              flex:1,
-                              child: Container(
-                                color: Colors.white,
-                                margin: EdgeInsets.all(10.0),
-                              ),
-                            ),
-                            Expanded(
-                              flex:1,
-                              child: Container(
-                                color: Colors.blue[100],
-                                margin: EdgeInsets.all(10.0),
-                              ),
-                            ),
-                            Expanded(
-                              flex:1,
-                              child: Container(
-                                color: Colors.white,
-                                margin: EdgeInsets.all(10.0),
-                              ),
-                            ),
-                            Expanded(
-                              flex:1,
-                              child: Container(
-                                color: Colors.white,
-                                margin: EdgeInsets.all(10.0),
+                            Text(
+                              'DRZEWO UMIEJĘTNOŚCI',
+                              style: TextStyle(
+                                letterSpacing:2.0
                               ),
                             ),
                             
-                              Container(
-                                color: Colors.blue[700],
-                                    child: IconButton(
-                                    icon: Icon(Icons.leak_remove),
-                                    color: Colors.white,
-                                    onPressed: () {
-                                      _abilityOnePopout(context);
-                                      } 
-                                    ),
-                                margin: EdgeInsets.all(10.0),
-                              ),
-                            
-                          ]
-                        ),
+                          ],
                       ),
+                  ),
 
+                  Expanded(
+                    flex: 1,
+                      child: Container(),
+                  ),
 
-                      Expanded(
-                        flex:1,
-                          child: Column(
-                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                          children: <Widget>[
-                            Expanded(
-                              flex:1,
-                              child: Container(
-                                color: Colors.white,
-                                margin: EdgeInsets.all(10.0),
-                              ),
-                            ),
-                            Expanded(
-                              flex:1,
-                              child: Container(
-                                color: Colors.white,
-                                margin: EdgeInsets.all(10.0),
-                              ),
-                            ),
-                            Expanded(
-                              flex:1,
-                              child: Container(
-                                color: Colors.white,
-                                margin: EdgeInsets.all(10.0),
-                              ),
-                            ),
-                            Expanded(
-                              flex:1,
-                              child: Container(
-                                color: Colors.white,
-                                margin: EdgeInsets.all(10.0),
-                              ),
-                            ),
-                            Expanded(
-                              flex:1,
-                              child: Container(
-                                color: Colors.blue[100],
-                                margin: EdgeInsets.all(10.0),
-                              ),
-                            ),
-                            Expanded(
-                              flex:1,
-                              child: Container(
-                                color: Colors.red[500],
-                                margin: EdgeInsets.all(10.0),
-                                 child: IconButton(
-                                    icon: Icon(Icons.account_circle),
-                                    color: Colors.white,
-                                    onPressed:(){
-                                          if(lvl_abilityOne==10){
-                                            _abilityThreePopout(context);
-                                          }else{
-                                           _showAlertabilityThree();
-                                          }
-                                        }
-                                    ),
-                              ),
-                            ),
-                            Expanded(
-                              flex:1,
-                              child: Container(
-                                color: Colors.white,
-                                margin: EdgeInsets.all(10.0),
-                              ),
-                            ),
-                          ]
-                        ),
-                      ),  
-
-
-                      Expanded(
-                        flex:1,
-                          child: Column(
-                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                          children: <Widget>[
-                            Expanded(
-                              flex:1,
-                              child: Container(
-                                color: Colors.white,
-                                margin: EdgeInsets.all(10.0),
-                              ),
-                            ),
-                            Expanded(
-                              flex:1,
-                              child: Container(
-                                color: Colors.blue[100],
-                                margin: EdgeInsets.all(10.0),
-                              ),
-                            ),
-                            Expanded(
-                              flex:1,
-                              child: Container(
-                                color: Colors.blue[100],
-                                margin: EdgeInsets.all(10.0),
-                              ),
-                            ),
-                            Expanded(
-                              flex:1,
-                              child: Container(
-                                color: Colors.blue[100],
-                                margin: EdgeInsets.all(10.0),
-                              ),
-                            ),
-                            Expanded(
-                              flex:1,
-                              child: Container(
-                                color: Colors.white,
-                                margin: EdgeInsets.all(10.0),
-                              ),
-                            ),
-                            Expanded(
-                              flex:1,
-                              child: Container(
-                                color: Colors.white,
-                                margin: EdgeInsets.all(10.0),
-                              ),
-                            ),
-                            Expanded(
-                              flex:1,
-                              child: Container(
-                                color: Colors.white,
-                                margin: EdgeInsets.all(10.0),
-                              ),
-                            ),
-                            
-
-                          ]
-                        ),
-                      ), 
-                    ]
-              ),
-            ),
-
-
-
-             Expanded(
-               flex:1,
-                child: Container(
-                 
-                color: Colors.green[100],
-                padding: EdgeInsets.all(5.0),
-                margin: EdgeInsets.all(2.0),
-                  child: Row( 
-                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                
                     
+                ]
+               
+                
+              ), //actions
+              ),
+          body:
+          Container(
+             color: Colors.white,
+              child:Column( 
+              
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              crossAxisAlignment: CrossAxisAlignment.stretch,
+              children: <Widget>[
+                
+                Expanded(
+                  
+                  flex:7,
+                   child: Row( 
+                     
+                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                        children: <Widget>[
 
-                    children: <Widget>[
-                       Expanded(
-                         flex:1,
-                          child: Container(
-                            height:48.0,
-                          padding: EdgeInsets.all(5.0),
-                          margin: EdgeInsets.all(2.0),
-                          color: Colors.green[500],
-                            child: Row(
+
+                          Expanded(
+                            flex:1,
+                              child: Column(
                               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                               children: <Widget>[
-                               
-                                  
-                                  Text(
-                                    'Rodzaj nr 1   ',
-                                    style: TextStyle(
-                                      letterSpacing:2.0,
-                                      fontWeight: FontWeight.bold,
-                                      color: Colors.white,
-                                    ),
-                                  ),
-                                  
-                                  Icon
-                                    (Icons.account_circle,
-                                     color: Colors.red,
-                                  ),
+                                abilitynull(),
+                                abilityzero(),
+                                abilitynull(),
+                                abilityzero(),
+                                abilityzero(),
+                                abilitynull(),
+                                abilitynull(),
+                                
+                              ]
+                            ),
+                          ), 
 
-                                  
-                          
-                        ],
-                     ),
+
+                          Expanded(
+                            flex:1,
+                              child: Column(
+                              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                              children: <Widget>[
+                                abilitynull(),
+                                abilitynull(),
+                                abilityzero(),
+                                abilitynull(),
+                                abilityzero(),
+                                Expanded(
+                                  flex:1,
+                                  child: Container(
+                                    color: Colors.green[600],
+                                    margin: EdgeInsets.all(10.0),
+                                   
+                                        child: IconButton(
+                                          icon: Icon(Icons.art_track),
+                                          color: Colors.white,
+                                          
+                                            onPressed:(){
+                                              if(lvl_abilityOne==10){
+                                                _abilityTwoPopout(context);
+                                              }else{
+                                               _showAlertabilityTwo();
+                                              }
+                                            }
+                                          ),
+                                    
+                                    
+                                  ),
+                                ),
+                               abilitynull(),
+                              ]
+                            ),
+                          ), 
+
+
+                          Expanded(
+                            flex:1,
+                              child: Column(
+                              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                              children: <Widget>[
+                                abilityzero(),
+                                abilityzero(),
+                                abilitynull(),
+                                abilityzero(),
+                                abilitynull(),
+                                abilitynull(),
+                                Container(
+                                    color: Colors.blue[700],
+                                        child: IconButton(
+                                        icon: Icon(Icons.leak_remove),
+                                        color: Colors.white,
+                                        onPressed: () {
+                                          _abilityOnePopout(context);
+                                          } 
+                                        ),
+                                    margin: EdgeInsets.all(10.0),
+                                  ),
+                              ]
+                            ),
                           ),
-                       ),
+
+
+                          Expanded(
+                            flex:1,
+                              child: Column(
+                              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                              children: <Widget>[
+                                abilitynull(),
+                                abilitynull(),
+                                abilitynull(),
+                                abilitynull(),
+                                abilityzero(),
+                                Expanded(
+                                  flex:1,
+                                  child: Container(
+                                    color: Colors.red[500],
+                                    margin: EdgeInsets.all(10.0),
+                                     child: IconButton(
+                                        icon: Icon(Icons.account_circle),
+                                        color: Colors.white,
+                                        onPressed:(){
+                                              if(lvl_abilityOne==10){
+                                                _abilityThreePopout(context);
+                                              }else{
+                                               _showAlertabilityThree();
+                                              }
+                                            }
+                                        ),
+                                  ),
+                                ),
+                             abilitynull(),
+                              ]
+                            ),
+                          ),  
+
+
+                          Expanded(
+                            flex:1,
+                              child: Column(
+                              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                              children: <Widget>[
+                               abilitynull(),
+                                abilityzero(),
+                                abilityzero(),
+                                abilityzero(),
+                                abilitynull(),
+                                abilitynull(),
+                                abilitynull(),
+                                
+
+                              ]
+                            ),
+                          ), 
+                        ]
+                  ),
+                ),
+
+
+
+                 Expanded(
+                   flex:1,
+                    child: Container(
                      
-                     
+                    color: Colors.green[100],
+                    padding: EdgeInsets.all(5.0),
+                    margin: EdgeInsets.all(2.0),
+                      child: Row( 
+                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                        
+
+                        children: <Widget>[
+                           Expanded(
+                             flex:1,
+                              child: Container(
+                                height:48.0,
+                              padding: EdgeInsets.all(5.0),
+                              margin: EdgeInsets.all(2.0),
+                              color: Colors.green[500],
+                                child: Row(
+                                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                                  children: <Widget>[
+                                   
+                                      
+                                      Text(
+                                        'Rodzaj nr 1   ',
+                                        style: TextStyle(
+                                          letterSpacing:2.0,
+                                          fontWeight: FontWeight.bold,
+                                          color: Colors.white,
+                                        ),
+                                      ),
+                                      
+                                      Icon
+                                        (Icons.account_circle,
+                                         color: Colors.red,
+                                      ),
+
+                                      
+                              
+                            ],
+                         ),
+                              ),
+                           ),
+                         
+                         
 
 
 
 
 
 
-                    ]
-                  ), 
-            ),
-             ),
-          ]
-      ),
-      ),
+                        ]
+                      ), 
+                ),
+                 ),
+              ]
+          ),
+          ),
+        );
+      }else{
+        return Loading();
+      }
+      }
     );
       
     
