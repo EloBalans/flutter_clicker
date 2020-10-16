@@ -60,8 +60,9 @@ class _userinfoState extends State<userinfo> {
               Expanded(
                 flex: 1,
                   child: Container(
-                    child:FlatButton(
-                      child: Text("logout"),
+                    child:IconButton(
+                      icon: Icon(Icons.directions_run),
+                      
                       onPressed: () async {
                        
                         await _auth.signOut();
@@ -80,7 +81,30 @@ class _userinfoState extends State<userinfo> {
             
           ), //actions
           ),
-      body: Text('sdgssd'),
+      body:Column(
+         children: <Widget>[
+                Container(
+                  height: 480,
+                  width: 350,
+          
+                 margin: EdgeInsets.fromLTRB(15.0,15.0,15.0,15.0),
+                     decoration: BoxDecoration(
+                        color: Colors.green,
+                            border: Border.all(
+                             color: Colors.green,
+                            ),
+                            borderRadius: BorderRadius.circular(15.0)
+                          ),
+                        ),
+
+                  
+
+           
+           
+
+         ]
+        
+      )
       
     );
   }

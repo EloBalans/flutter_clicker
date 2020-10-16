@@ -10,7 +10,8 @@ class Ware {
   final int uptolvlone;
   final int uptolvltwo;
   final int uptolvlthree;
+  final int intrest;
 
-  Ware({this.username,this.lvlabilityone,this.lvlabilitytwo,this.lvlabilitythree,this.wares,this.actualware,this.points,this.uptolvlone,this.uptolvltwo,this.uptolvlthree});
+  Ware({this.username,this.lvlabilityone,this.lvlabilitytwo,this.lvlabilitythree,this.wares,this.actualware,this.points,this.uptolvlone,this.uptolvltwo,this.uptolvlthree,this.intrest});
 
 }

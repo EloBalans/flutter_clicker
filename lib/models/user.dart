@@ -17,6 +17,7 @@ class UserData{
   final int uptolvlone;
   final int uptolvltwo;
   final int uptolvlthree;
+  final int intrest;
 
-  UserData({this.uid,this.username,this.lvlabilityone,this.lvlabilitytwo,this.lvlabilitythree,this.wares,this.actualware,this.points,this.uptolvlone,this.uptolvltwo,this.uptolvlthree});
+  UserData({this.uid,this.username,this.lvlabilityone,this.lvlabilitytwo,this.lvlabilitythree,this.wares,this.actualware,this.points,this.uptolvlone,this.uptolvltwo,this.uptolvlthree,this.intrest});
 }

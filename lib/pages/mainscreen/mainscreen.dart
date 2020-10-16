@@ -17,7 +17,7 @@ class _mainscreenState extends State<mainscreen> {
 
 int resources;
 int points;
-int intrest=1;
+int intrest;
 String username;
 int lvl_abilityOne;
 int lvl_abilityTwo;
@@ -43,6 +43,7 @@ String actualware;
             username = userData.username;
             points = userData.points;
             resources = userData.wares;
+            intrest = userData.intrest;
             
 
 
@@ -245,7 +246,6 @@ String actualware;
                         setState(() {
                           resources += intrest;
                           points += intrest;
-                          points = userData.points;
                           
                         });
                         await DatabaseService(uid: user.uid).updateUserData(
@@ -259,6 +259,7 @@ String actualware;
                               resToUpabilityOne ?? userData.uptolvlone,
                               resToUpabilityTwo ?? userData.uptolvltwo,
                               resToUpabilityThree ?? userData.uptolvlthree,
+                              intrest ?? userData.intrest,
                         );
                       },
                       child: Image(

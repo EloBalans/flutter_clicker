@@ -9,7 +9,7 @@ class DatabaseService{
 
   final CollectionReference wareCollection = Firestore.instance.collection('ware'); 
 
-  Future updateUserData(String username, int lvlabilityone, int lvlabilitytwo, int lvlabilitythree, String actualware, int wares, int points,int uptolvlone,int uptolvltwo,int uptolvlthree) async {
+  Future updateUserData(String username, int lvlabilityone, int lvlabilitytwo, int lvlabilitythree, String actualware, int wares, int points,int uptolvlone,int uptolvltwo,int uptolvlthree,int intrest) async {
     return await wareCollection.document(uid).setData({
       'username' : username,
       'lvlabilityone' : lvlabilityone,
@@ -21,6 +21,7 @@ class DatabaseService{
       'uptolvlone' : uptolvlone,
       'uptolvltwo' : uptolvltwo,
       'uptolvlthree' : uptolvlthree,
+      'intrest' : intrest,
 
     });
 
@@ -51,8 +52,9 @@ class DatabaseService{
         wares: doc.data['wares'] ?? 0,
         points: doc.data['points'] ?? 0,
         uptolvlone: doc.data['uptolvlone'] ?? 10,
-        uptolvltwo: doc.data['uptolvltwo'] ?? 10,
-        uptolvlthree: doc.data['uptolvlthree'] ?? 0,
+        uptolvltwo: doc.data['uptolvltwo'] ?? 100,
+        uptolvlthree: doc.data['uptolvlthree'] ?? 100,
+        intrest: doc.data['intrest'] ?? 1,
         
       );
     }).toList();
@@ -71,6 +73,7 @@ UserData _userDataFromSnapshot(DocumentSnapshot snapshot){
     uptolvlone: snapshot.data['uptolvlone'],
     uptolvltwo: snapshot.data['uptolvltwo'],
     uptolvlthree: snapshot.data['uptolvlthree'],
+    intrest: snapshot.data['intrest'],
   );
 }
 

@@ -24,7 +24,7 @@ int points;
 int resToUpabilityOne;
 int resToUpabilityTwo;
 int resToUpabilityThree;
-int intrest=1;
+int intrest;
 String username;
 int wares;
 String actualware;
@@ -118,6 +118,7 @@ String actualware;
               resToUpabilityOne=userData.uptolvlone;
               resToUpabilityTwo=userData.uptolvltwo;
               resToUpabilityThree=userData.uptolvlthree;
+              intrest=userData.intrest;
 
 
             return Container(
@@ -171,7 +172,7 @@ String actualware;
                               setStateContext(() {
                                 resources -= resToUpabilityOne;
                                 lvl_abilityOne += 1;
-                                intrest += lvl_abilityOne;
+                                intrest += 1;
                                 resToUpabilityOne = resToUpabilityOne * 2;
                                 
                             });
@@ -186,6 +187,7 @@ String actualware;
                               resToUpabilityOne ?? userData.uptolvlone,
                               resToUpabilityTwo ?? userData.uptolvltwo,
                               resToUpabilityThree ?? userData.uptolvlthree,
+                              intrest ?? userData.intrest,
 
                               );
                           }
@@ -295,7 +297,7 @@ String actualware;
                               setStateContext(() {
                                 resources -= resToUpabilityTwo;
                                 lvl_abilityTwo += 1;
-                                intrest += lvl_abilityTwo;
+                                intrest += 1;
                                 resToUpabilityOne = resToUpabilityOne * 2;
                                 
                             });
@@ -310,6 +312,7 @@ String actualware;
                               resToUpabilityOne ?? userData.uptolvlone,
                               resToUpabilityTwo ?? userData.uptolvltwo,
                               resToUpabilityThree ?? userData.uptolvlthree,
+                              intrest ?? userData.intrest,
 
                               );
                           }
@@ -419,7 +422,7 @@ String actualware;
                               setStateContext(() {
                                 resources -= resToUpabilityThree;
                                 lvl_abilityThree += 1;
-                                intrest += lvl_abilityThree;
+                                intrest += 1;
                                 resToUpabilityThree = resToUpabilityThree * 2;
                                 
                             });
@@ -434,6 +437,7 @@ String actualware;
                               resToUpabilityOne ?? userData.uptolvlone,
                               resToUpabilityTwo ?? userData.uptolvltwo,
                               resToUpabilityThree ?? userData.uptolvlthree,
+                              intrest ?? userData.intrest,
 
                               );
                           }
