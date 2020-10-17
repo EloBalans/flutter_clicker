@@ -243,8 +243,11 @@ String actualware;
               lvl_abilityTwo=userData.lvlabilitytwo;
               lvl_abilityThree=userData.lvlabilitythree;
               actualware=userData.actualware;
-              wares=userData.wares;
-
+              resources=userData.wares;
+              resToUpabilityOne=userData.uptolvlone;
+              resToUpabilityTwo=userData.uptolvltwo;
+              resToUpabilityThree=userData.uptolvlthree;
+              intrest=userData.intrest;
 
             return Container(
               color: Colors.green[500],
@@ -298,7 +301,7 @@ String actualware;
                                 resources -= resToUpabilityTwo;
                                 lvl_abilityTwo += 1;
                                 intrest += 1;
-                                resToUpabilityOne = resToUpabilityOne * 2;
+                                resToUpabilityTwo = resToUpabilityTwo * 2;
                                 
                             });
                            await DatabaseService(uid: user.uid).updateUserData(
@@ -368,11 +371,16 @@ String actualware;
               lvl_abilityTwo=userData.lvlabilitytwo;
               lvl_abilityThree=userData.lvlabilitythree;
               actualware=userData.actualware;
-              wares=userData.wares;
+              resources=userData.wares;
+              resToUpabilityOne=userData.uptolvlone;
+              resToUpabilityTwo=userData.uptolvltwo;
+              resToUpabilityThree=userData.uptolvlthree;
+              intrest=userData.intrest;
+
 
 
             return Container(
-              color: Colors.blue[500],
+              color: Colors.red[500],
               height:100,
               
               child: Column(
@@ -431,7 +439,7 @@ String actualware;
                               lvl_abilityOne ?? userData.lvlabilityone, 
                               lvl_abilityTwo ?? userData.lvlabilitytwo, 
                               lvl_abilityThree ?? userData.lvlabilitythree,
-                              actualware ?? userData.actualware,
+                              actualware ?? userData  .actualware,
                               resources ?? userData.wares,
                               points ?? userData.points,
                               resToUpabilityOne ?? userData.uptolvlone,
@@ -507,11 +515,11 @@ String actualware;
         if(snapshot.hasData){
 
         UserData userData = snapshot.data;
-         lvl_abilityOne=userData.lvlabilityone;
-              lvl_abilityTwo=userData.lvlabilitytwo;
-              lvl_abilityThree=userData.lvlabilitythree;
-              actualware=userData.actualware;
-              wares=userData.wares;
+          lvl_abilityOne=userData.lvlabilityone;
+          lvl_abilityTwo=userData.lvlabilitytwo;
+          lvl_abilityThree=userData.lvlabilitythree;
+          actualware=userData.actualware;
+          wares=userData.wares;
         return Scaffold(
            appBar: AppBar(
               
