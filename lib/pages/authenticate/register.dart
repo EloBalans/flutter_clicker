@@ -73,126 +73,128 @@ String username = '';
   ),
 ),
 
-      body: Center(
-              child: Column(
-          children: <Widget>[
-              Image(
-                  image: AssetImage('assets/cannabisspot_icon.png'),
-                  height: 100.0,
-                  width: 100.0,
-                  
-                  
-                  ),
-            Container(
-              
-             
-            margin: EdgeInsets.fromLTRB(25.0,0.0,25.0,25.0),
-             
-              decoration: BoxDecoration(
-                border: Border(
-                 
-                  ),
-                  borderRadius: BorderRadius.circular(20),
-                ),
-                
-              child: Form(
-                key: _formKey,
+      body: SingleChildScrollView(
+              child: Center(
                 child: Column(
-                  children: <Widget>[
+            children: <Widget>[
+                Image(
+                    image: AssetImage('assets/cannabisspot_icon.png'),
+                    height: 100.0,
+                    width: 100.0,
+                    
+                    
+                    ),
+              Container(
+                
+               
+              margin: EdgeInsets.fromLTRB(25.0,0.0,25.0,25.0),
+               
+                decoration: BoxDecoration(
+                  border: Border(
+                   
+                    ),
+                    borderRadius: BorderRadius.circular(20),
+                  ),
                   
-                    TextFormField(
-                      decoration: InputDecoration(
-                        prefixIcon: Icon(Icons.email),
-                        hintText: 'Email',
-                          border: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(32.0)
-                        ),
-                      ),
-                      
-                      validator: (val) => val.isEmpty ? 'Enter an email' : null,
-                      
-                      onChanged: (val){
-                        setState(() => email = val);
-                      },
-                      
-                    ),
-                    SizedBox(height: 20.0),
-                    TextFormField(
-                      decoration: InputDecoration(
-                        prefixIcon: Icon(Icons.supervised_user_circle),
-                        hintText: 'Username',
-                          border: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(32.0)
-                        ),
-                      ),
-                      validator: (val) => val.isEmpty ? 'Enter an username' : null,
-                      onChanged: (val){
-                        setState(() => username = val);
-                      },
-                    ),
-                    SizedBox(height: 20.0),
-                    TextFormField(
-                      decoration: InputDecoration(
-                        prefixIcon: Icon(Icons.lock),
-                        hintText: 'Password',
-                          border: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(32.0)
-                        ),
-                      ),
-                      obscureText: true,
-                      validator: (val) => val.isEmpty ? 'Enter an password' : null,
-                      
-                      
-                      onChanged: (val){
-                        setState(() => password = val);
-                      },
-                    ),
-                    SizedBox(height: 20.0),
-                     
-                    RaisedButton(
-                      color:Colors.green,
-                      
-                      child: Text('Register',
-                        style: TextStyle(
-                          color: Colors.white,
-                        ),
-                      ),
-                      onPressed: () async {
-                          if(_formKey.currentState.validate()){
-                            setState(() => loading = true);
-                            dynamic result = await _auth.register(email.trim(),password.trim(),username.trim());
-                            
-                            if(result == null){
-                              setState((){
-                                error = 'please supply valid email or password';
-                                loading = false;
-                              });
-                            }
-                          }
-                      }
-                      ),
-                      
-                       FlatButton.icon(
-                        onPressed: (){
-                          widget.toggleView();
-                        },
-                        icon: Icon(Icons.person), 
-                        label: Text('Sing in')),
-
-                        SizedBox(height: 12.0),
-                      Text(
-                        error,
-                        style: TextStyle(
-                          color: Colors.red,
-                          fontSize: 13.0, 
+                child: Form(
+                  key: _formKey,
+                  child: Column(
+                    children: <Widget>[
+                    
+                      TextFormField(
+                        decoration: InputDecoration(
+                          prefixIcon: Icon(Icons.email),
+                          hintText: 'Email',
+                            border: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(32.0)
                           ),
+                        ),
+                        
+                        validator: (val) => val.isEmpty ? 'Enter an email' : null,
+                        
+                        onChanged: (val){
+                          setState(() => email = val);
+                        },
+                        
                       ),
-                  ],
-                  )
+                      SizedBox(height: 20.0),
+                      TextFormField(
+                        decoration: InputDecoration(
+                          prefixIcon: Icon(Icons.supervised_user_circle),
+                          hintText: 'Username',
+                            border: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(32.0)
+                          ),
+                        ),
+                        validator: (val) => val.isEmpty ? 'Enter an username' : null,
+                        onChanged: (val){
+                          setState(() => username = val);
+                        },
+                      ),
+                      SizedBox(height: 20.0),
+                      TextFormField(
+                        decoration: InputDecoration(
+                          prefixIcon: Icon(Icons.lock),
+                          hintText: 'Password',
+                            border: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(32.0)
+                          ),
+                        ),
+                        obscureText: true,
+                        validator: (val) => val.isEmpty ? 'Enter an password' : null,
+                        
+                        
+                        onChanged: (val){
+                          setState(() => password = val);
+                        },
+                      ),
+                      SizedBox(height: 20.0),
+                       
+                      RaisedButton(
+                        color:Colors.green,
+                        
+                        child: Text('Register',
+                          style: TextStyle(
+                            color: Colors.white,
+                          ),
+                        ),
+                        onPressed: () async {
+                            if(_formKey.currentState.validate()){
+                              setState(() => loading = true);
+                              dynamic result = await _auth.register(email.trim(),password.trim(),username.trim());
+                              
+                              if(result == null){
+                                setState((){
+                                  error = 'please supply valid email or password';
+                                  loading = false;
+                                });
+                              }
+                            }
+                        }
+                        ),
+                        
+                         FlatButton.icon(
+                          onPressed: (){
+                            widget.toggleView();
+                          },
+                          icon: Icon(Icons.person), 
+                          label: Text('Sing in')),
+
+                          SizedBox(height: 12.0),
+                        Text(
+                          error,
+                          style: TextStyle(
+                            color: Colors.red,
+                            fontSize: 13.0, 
+                            ),
+                        ),
+                    ],
+                    )
+                )
               )
-            )
-            
-          ],
+              
+            ],
+          ),
         ),
       ),
         

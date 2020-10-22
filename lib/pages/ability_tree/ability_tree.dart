@@ -1,8 +1,10 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:game_01/services/custom_paint.dart';
 import 'package:game_01/services/database.dart';
 import 'package:game_01/models/user.dart';
 import 'package:game_01/shared/loading.dart';
+import 'package:game_01/services/assets.dart';
 import 'package:provider/provider.dart';
 
 
@@ -28,6 +30,7 @@ int intrest;
 String username;
 int wares;
 String actualware;
+int warespersec;
   void _showAlertabilityTwo(){
     showDialog(context: context,
       builder: (BuildContext context){
@@ -95,6 +98,7 @@ String actualware;
     );
   }
 
+
   void _abilityOnePopout(context){
     showModalBottomSheet(
       context: context, 
@@ -128,7 +132,7 @@ String actualware;
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                  children: <Widget>[
-                    Text("Ability one",
+                    Text("Nawodnienie",
                       style: TextStyle(
                         color: Colors.white,
                         letterSpacing:2.0,
@@ -139,10 +143,9 @@ String actualware;
                    Row(
                       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                      children: [
-                       Text("opis sdfsdfs"
-                       "\nopis  sdfsdfs"
-                       "\nopis sdfsdfs"
-                       "\nopis sdfsdfs",
+                       Text(" Nawodnienie znacznie"
+                       "\n zwiększy plony oraz"
+                       "\n jakość produktu",
                       style: TextStyle(
                         color: Colors.white,
                         letterSpacing:2.0,
@@ -152,7 +155,7 @@ String actualware;
                     ),
                    
                        
-                        Text("Aktualny poziom: $lvl_abilityOne/10",
+                        Text("poziom: $lvl_abilityOne/10",
                         style: TextStyle(
                           color: Colors.white,
                           letterSpacing:2.0,
@@ -188,12 +191,22 @@ String actualware;
                               resToUpabilityTwo ?? userData.uptolvltwo,
                               resToUpabilityThree ?? userData.uptolvlthree,
                               intrest ?? userData.intrest,
+                              warespersec ?? userData.warespersec,
 
                               );
                           }
                         : null,
                          
-                          child: Text('$resources/$resToUpabilityOne',
+                          child: lvl_abilityOne==10 ? 
+                          Text('MAX',
+                                      style: TextStyle(
+                                      fontSize: 13.0,
+                                      color: Colors.white,
+                                      fontWeight: FontWeight.bold
+                                      ),
+                                    )
+                                  : 
+                                    Text('$resources/$resToUpabilityOne',
                                       style: TextStyle(
                                       fontSize: 13.0,
                                       color: Colors.white,
@@ -316,12 +329,21 @@ String actualware;
                               resToUpabilityTwo ?? userData.uptolvltwo,
                               resToUpabilityThree ?? userData.uptolvlthree,
                               intrest ?? userData.intrest,
+                              warespersec ?? userData.warespersec,
 
                               );
                           }
                         : null,
                          
-                          child: Text('$resources/$resToUpabilityTwo',
+                          child: lvl_abilityTwo==10 ? 
+                          Text('MAX',
+                                      style: TextStyle(
+                                      fontSize: 13.0,
+                                      color: Colors.white,
+                                      fontWeight: FontWeight.bold
+                                      ),
+                                    )
+                                  : Text('$resources/$resToUpabilityTwo',
                                       style: TextStyle(
                                       fontSize: 13.0,
                                       color: Colors.white,
@@ -351,21 +373,19 @@ String actualware;
   
   
   }
-
   void _abilityThreePopout(context){
-    showModalBottomSheet(
-      context: context, 
-      builder: (BuildContext context) {
-         return StatefulBuilder(
-          builder: (BuildContext context, StateSetter setStateContext) {
-            final user = Provider.of<User>(context);
-        return StreamBuilder<UserData>(
+  showModalBottomSheet(
+  context: context, 
+  builder: (BuildContext context) {
+    return StatefulBuilder(
+      builder: (BuildContext context, StateSetter setStateContext) {
+      final user = Provider.of<User>(context);
+          return StreamBuilder<UserData>(
           stream: DatabaseService(uid: user.uid).userData,
           builder: (context, snapshot) {
             
             if(snapshot.hasData){
-            
-            
+
             UserData userData = snapshot.data;
               lvl_abilityOne=userData.lvlabilityone;
               lvl_abilityTwo=userData.lvlabilitytwo;
@@ -422,7 +442,6 @@ String actualware;
                      
                      
                        Container(
-                     
                         child: RaisedButton(
                           color: Colors.red[200],
                           onPressed: ((resources >= resToUpabilityThree)&(lvl_abilityThree<10))
@@ -430,9 +449,8 @@ String actualware;
                               setStateContext(() {
                                 resources -= resToUpabilityThree;
                                 lvl_abilityThree += 1;
-                                intrest += 1;
+                                warespersec += 1;
                                 resToUpabilityThree = resToUpabilityThree * 2;
-                                
                             });
                             await DatabaseService(uid: user.uid).updateUserData(
                               username ?? userData.username,
@@ -446,64 +464,77 @@ String actualware;
                               resToUpabilityTwo ?? userData.uptolvltwo,
                               resToUpabilityThree ?? userData.uptolvlthree,
                               intrest ?? userData.intrest,
-
+                              warespersec ?? userData.warespersec,
                               );
                           }
-                        : null,
-                         
-                          child: Text('$resources/$resToUpabilityThree',
+                        :null,
+                          child: lvl_abilityThree==10 ? 
+                          Text('MAX',
                                       style: TextStyle(
                                       fontSize: 13.0,
                                       color: Colors.white,
                                       fontWeight: FontWeight.bold
-                                      ),),
+                                      ),
+                                    )
+                                  :  Text('$resources/$resToUpabilityThree',
+                            style: TextStyle(
+                              fontSize: 13.0,
+                              color: Colors.white,
+                              fontWeight: FontWeight.bold
+                              ),
+                          ),
                       ),
                       ),
-
-                      
                       ],
                      ) ,
-                    
-
                  ],
               ),
             );
-            
             }else{
              return Loading();
-            }
-            
+            } 
           }
         );
-          }
-         );
-    });
+       }
+      );
+  });
   
   
-  }
+}
+
   abilitynull(){
     return 
     Expanded(
       flex:1,
-        child: Container(
-        color: Colors.white,
+        child: Container( 
         margin: EdgeInsets.all(10.0),
         ),
     );
-
   }
+
   abilityzero(){
     return 
       Expanded(
       flex:1,
         child: Container(
-        color: Colors.blue[100],
-        margin: EdgeInsets.all(10.0),
-       ),
+          decoration: BoxDecoration(
+            color: Colors.blue[200],
+            border: Border.all(
+              color: Colors.blue[200],
+              width: 3,
+            ),
+          borderRadius: BorderRadius.circular(50.0)
+          ),
+          margin: EdgeInsets.all(5.0),
+            child: IconButton(
+                icon: Icon(Icons.art_track),
+                color: Colors.white,
+                onPressed:(){}
+              ),
+         ),
      );
-
   }
- 
+  
   @override
   Widget build(BuildContext context) {
 
@@ -576,221 +607,289 @@ String actualware;
               ), //actions
               ),
           body:
-          Container(
-             color: Colors.white,
-              child:Column( 
-              
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              crossAxisAlignment: CrossAxisAlignment.stretch,
-              children: <Widget>[
-                
-                Expanded(
+          LayoutBuilder(
+            builder: (_, constraints) =>
+            Container(
+               color: Colors.white,
+                child:CustomPaint(
+                  painter:FaceOutlinePainter(),
+                  child: Column( 
                   
-                  flex:7,
-                   child: Row( 
-                     
-                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                        children: <Widget>[
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  crossAxisAlignment: CrossAxisAlignment.stretch,
+                  children: <Widget>[
+                    
+                    Expanded(
+                      
+                      flex:7,
+                       child: Row( 
+                         
+                            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                            children: <Widget>[
 
 
-                          Expanded(
-                            flex:1,
-                              child: Column(
-                              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                              children: <Widget>[
-                                abilitynull(),
-                                abilityzero(),
-                                abilitynull(),
-                                abilityzero(),
-                                abilityzero(),
-                                abilitynull(),
-                                abilitynull(),
-                                
-                              ]
-                            ),
-                          ), 
-
-
-                          Expanded(
-                            flex:1,
-                              child: Column(
-                              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                              children: <Widget>[
-                                abilitynull(),
-                                abilitynull(),
-                                abilityzero(),
-                                abilitynull(),
-                                abilityzero(),
-                                Expanded(
-                                  flex:1,
-                                  child: Container(
-                                    color: Colors.green[600],
-                                    margin: EdgeInsets.all(10.0),
-                                   
-                                        child: IconButton(
-                                          icon: Icon(Icons.art_track),
-                                          color: Colors.white,
-                                          
-                                            onPressed:(){
-                                              if(lvl_abilityOne==10){
-                                                _abilityTwoPopout(context);
-                                              }else{
-                                               _showAlertabilityTwo();
-                                              }
-                                            }
-                                          ),
-                                    
-                                    
-                                  ),
-                                ),
-                               abilitynull(),
-                              ]
-                            ),
-                          ), 
-
-
-                          Expanded(
-                            flex:1,
-                              child: Column(
-                              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                              children: <Widget>[
-                                abilityzero(),
-                                abilityzero(),
-                                abilitynull(),
-                                abilityzero(),
-                                abilitynull(),
-                                abilitynull(),
-                                Container(
-                                    color: Colors.blue[700],
-                                        child: IconButton(
-                                        icon: Icon(Icons.leak_remove),
-                                        color: Colors.white,
-                                        onPressed: () {
-                                          _abilityOnePopout(context);
-                                          } 
-                                        ),
-                                    margin: EdgeInsets.all(10.0),
-                                  ),
-                              ]
-                            ),
-                          ),
-
-
-                          Expanded(
-                            flex:1,
-                              child: Column(
-                              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                              children: <Widget>[
-                                abilitynull(),
-                                abilitynull(),
-                                abilitynull(),
-                                abilitynull(),
-                                abilityzero(),
-                                Expanded(
-                                  flex:1,
-                                  child: Container(
-                                    color: Colors.red[500],
-                                    margin: EdgeInsets.all(10.0),
-                                     child: IconButton(
-                                        icon: Icon(Icons.account_circle),
-                                        color: Colors.white,
-                                        onPressed:(){
-                                              if(lvl_abilityOne==10){
-                                                _abilityThreePopout(context);
-                                              }else{
-                                               _showAlertabilityThree();
-                                              }
-                                            }
-                                        ),
-                                  ),
-                                ),
-                             abilitynull(),
-                              ]
-                            ),
-                          ),  
-
-
-                          Expanded(
-                            flex:1,
-                              child: Column(
-                              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                              children: <Widget>[
-                               abilitynull(),
-                                abilityzero(),
-                                abilityzero(),
-                                abilityzero(),
-                                abilitynull(),
-                                abilitynull(),
-                                abilitynull(),
-                                
-
-                              ]
-                            ),
-                          ), 
-                        ]
-                  ),
-                ),
-
-
-
-                 Expanded(
-                   flex:1,
-                    child: Container(
-                     
-                    color: Colors.green[100],
-                    padding: EdgeInsets.all(5.0),
-                    margin: EdgeInsets.all(2.0),
-                      child: Row( 
-                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                        
-
-                        children: <Widget>[
-                           Expanded(
-                             flex:1,
-                              child: Container(
-                                height:48.0,
-                              padding: EdgeInsets.all(5.0),
-                              margin: EdgeInsets.all(2.0),
-                              color: Colors.green[500],
-                                child: Row(
+                              Expanded(
+                                flex:1,
+                                  child: Column(
                                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                                   children: <Widget>[
-                                   
-                                      
-                                      Text(
-                                        'Rodzaj nr 1   ',
-                                        style: TextStyle(
-                                          letterSpacing:2.0,
-                                          fontWeight: FontWeight.bold,
-                                          color: Colors.white,
+                                    abilitynull(),
+                                    abilityzero(),
+                                    abilitynull(),
+                                    abilityzero(),
+                                    abilityzero(),
+                                    abilitynull(),
+                                    abilitynull(),
+                                    
+                                  ]
+                                ),
+                              ), 
+
+
+                              Expanded(
+                                flex:1,
+                                  child: Column(
+                                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                                  children: <Widget>[
+                                    abilitynull(),
+                                    abilitynull(),
+                                    abilityzero(),
+                                    abilitynull(),
+                                    abilityzero(),
+                                    Expanded(
+                                      flex:1,
+                                      child: Container(
+                                        decoration: BoxDecoration(
+                                          color: Colors.green[600],
+                                          border: Border.all(
+                                            color: Colors.green[600],
+                                            width: 3,
+                                          ),
+                                          borderRadius: BorderRadius.circular(50.0)
                                         ),
+                                        margin: EdgeInsets.all(5.0),
+                                       
+                                            child: IconButton(
+                                              icon: Icon(Icons.art_track),
+                                              color: Colors.white,
+                                              
+                                                onPressed:(){
+                                                  if(lvl_abilityOne==10){
+                                                    _abilityTwoPopout(context);
+                                                  }else{
+                                                   _showAlertabilityTwo();
+                                                  }
+                                                }
+                                              ),
+                                        
+                                        
                                       ),
-                                      
-                                      Icon
-                                        (Icons.account_circle,
-                                         color: Colors.red,
-                                      ),
+                                    ),
+                                   abilitynull(),
+                                  ]
+                                ),
+                              ), 
 
-                                      
-                              
-                            ],
-                         ),
+
+                              Expanded(
+                                flex:1,
+                                  child: Column(
+                                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                                  children: <Widget>[
+                                    abilityzero(),
+                                    abilityzero(),
+                                    abilitynull(),
+                                    abilityzero(),
+                                    abilitynull(),
+                                    abilitynull(),
+                                    Container(
+                                        decoration: BoxDecoration(
+                                          color: Colors.blue[700],
+                                          border: Border.all(
+                                            color: Colors.blue[700],
+                                            width: 3,
+                                          ),
+                                          borderRadius: BorderRadius.circular(50.0)
+                                        ),
+                                        
+                                            child: IconButton(
+                                            icon: Icon(CustomIconswater.water),
+                                            color: Colors.white,
+                                            onPressed: () {
+                                              _abilityOnePopout(context);
+                                              } 
+                                            ),
+                                        margin: EdgeInsets.all(5.0),
+                                      ),
+                                  ]
+                                ),
                               ),
-                           ),
+
+
+                              Expanded(
+                                flex:1,
+                                  child: Column(
+                                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                                  children: <Widget>[
+                                    abilitynull(),
+                                    abilitynull(),
+                                    abilitynull(),
+                                    abilitynull(),
+                                    abilityzero(),
+                                    Expanded(
+                                      flex:1,
+                                      child: Container(
+                                        decoration: BoxDecoration(
+                                          color: Colors.red[700],
+                                          border: Border.all(
+                                            color: Colors.red[700],
+                                            width: 3,
+                                          ),
+                                          borderRadius: BorderRadius.circular(50.0)
+                                        ),
+                                        margin: EdgeInsets.all(5.0),
+                                         child: IconButton(
+                                            icon: Icon(Icons.account_circle),
+                                            color: Colors.white,
+                                            onPressed:(){
+                                                  if(lvl_abilityOne==10){
+                                                    _abilityThreePopout(context);
+                                                  }else{
+                                                   _showAlertabilityThree();
+                                                  }
+                                                }
+                                            ),
+                                      ),
+                                    ),
+                                 abilitynull(),
+                                  ]
+                                ),
+                              ),  
+
+
+                              Expanded(
+                                flex:1,
+                                  child: Column(
+                                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                                  children: <Widget>[
+                                   abilitynull(),
+                                    abilityzero(),
+                                    abilityzero(),
+                                    abilityzero(),
+                                    abilitynull(),
+                                    abilitynull(),
+                                    abilitynull(),
+                                    
+
+                                  ]
+                                ),
+                              ), 
+                            ]
+                      ),
+                    ),
+
+
+
+                     Expanded(
+                       flex:1,
+                        child: Container(
                          
-                         
+                     
+                        padding: EdgeInsets.all(5.0),
+                        margin: EdgeInsets.all(2.0),
+                          child: Row( 
+                            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                            
+
+                            children: <Widget>[
+                               Expanded(
+                                 flex:1,
+                                  child: Container(
+                                    height:48.0,
+                                  padding: EdgeInsets.all(5.0),
+                                  margin: EdgeInsets.all(2.0),
+                                   decoration: BoxDecoration(
+                        color: Colors.green,
+                            border: Border.all(
+                             color: Colors.green,
+                            ),
+                            borderRadius: BorderRadius.circular(15.0)
+                          ),
+                                    child: Row(
+                                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                                      children: <Widget>[
+                                       
+                                          
+                                          Text(
+                                            'Amnesia   ',
+                                            style: TextStyle(
+                                              letterSpacing:2.0,
+                                              fontWeight: FontWeight.bold,
+                                              color: Colors.white,
+                                            ),
+                                          ),
+                                          
+                                          Container(
+                                            height: 100,
+                                            width: 170,
+                                            decoration: BoxDecoration(
+                                              color: Colors.green[300],
+                                              border: Border.all(
+                                                color: Colors.green[300],
+                                              ),
+                                              borderRadius: BorderRadius.circular(15.0)
+                                            ),
+                                            child: Row(
+                                              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                                              children: <Widget>[
+                                              Icon
+                                                (CustomIcons.leaf,
+                                                  color: Colors.red,
+                                                ),
+                                              Container(
+                                                decoration: BoxDecoration(
+                                                  color: Colors.green[200],
+                                                  border: Border.all(
+                                                    color: Colors.green[200],
+                                                  ),
+                                                borderRadius: BorderRadius.circular(15.0)
+                                                ),
+
+                                                child: FlatButton(
+                                                  textColor: Colors.white,
+                                                  onPressed: () {},
+                                                  child: Text(
+                                                    'Wybierz',
+                                                  )
+                                                ),
+                                              )  
+
+                                              ]
+                                            ),
+                                          ),
+
+                                          
+                                  
+                                ],
+                             ),
+                                  ),
+                               ),
+                             
+                             
 
 
 
 
 
 
-                        ]
-                      ), 
+                            ]
+                          ), 
+                    ),
+                     ),
+                  ]
+            ),
                 ),
-                 ),
-              ]
-          ),
+            ),
           ),
         );
       }else{

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:game_01/pages/authenticate/signin.dart';
 import 'package:game_01/pages/mainscreen/mainscreen.dart';
-import 'package:game_01/pages/ability_tree.dart';
+import 'package:game_01/pages/ability_tree/ability_tree.dart';
 import 'package:game_01/pages/userinfo.dart';
 import 'package:game_01/pages/wrapper.dart';
 import 'package:game_01/services/auth.dart';
